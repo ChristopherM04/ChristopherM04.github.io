@@ -1,0 +1,386 @@
+/* ==========================================================
+   Christopher Murat — site styles
+   Idea: each page reads like a page of a client account
+   statement (header block, ruled rows, aligned figures),
+   which ties the look to the wealth-management study.
+   ========================================================== */
+
+/* ---------- Tokens ---------- */
+:root {
+  --ground: #f4f5f2;      /* page background: cool paper, not cream */
+  --ink: #14202b;         /* main text: deep navy-black */
+  --accent: #0e5a47;      /* bank green: links, rules, buttons */
+  --accent-dark: #0a4436; /* hover state for the accent */
+  --surface: #ffffff;     /* cards and the statement block */
+  --muted: #5b6670;       /* secondary text (5:1 on --ground) */
+  --rule: #c9cfc9;        /* ruled lines between statement rows */
+  --flag-bg: #fbe6d8;     /* placeholder highlight background */
+  --flag-ink: #8a3a10;    /* placeholder highlight text (7:1 on --flag-bg) */
+
+  --font-display: "Source Serif 4", Georgia, serif;
+  --font-body: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+
+  /* Five sizes, clearly far apart */
+  --size-s: 0.875rem;  /* 14px: labels, footer */
+  --size-m: 1.0625rem; /* 17px: body */
+  --size-l: 1.375rem;  /* 22px: card titles */
+  --size-xl: 2.125rem; /* 34px: page titles */
+  --size-xxl: 3.5rem;  /* 56px: name on Home */
+
+  --measure: 64ch;     /* comfortable line length */
+  --page: 1080px;      /* max page width */
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--size-m);
+  line-height: 1.6;
+  caret-color: var(--accent);
+}
+
+::selection { background: var(--accent); color: var(--surface); }
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 0.5em;
+}
+
+h1 { font-size: var(--size-xl); }
+h2 { font-size: var(--size-l); }
+h3 { font-size: var(--size-l); }
+
+p { margin: 0 0 1em; max-width: var(--measure); }
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+a:hover { color: var(--accent-dark); text-decoration-thickness: 2px; }
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Skip link for keyboard users, shown only on focus */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--ink);
+  color: var(--surface);
+  padding: 0.5rem 1rem;
+  z-index: 10;
+}
+.skip-link:focus { left: 1rem; top: 1rem; }
+
+/* ---------- Placeholder flag ----------
+   Every [PLACEHOLDER] sits in this highlight so it is easy
+   to spot on screen as well as with Find in the code. */
+.flag {
+  background: var(--flag-bg);
+  color: var(--flag-ink);
+  padding: 0.05em 0.3em;
+  font-weight: 600;
+}
+
+/* ---------- Header and menu ---------- */
+.site-header {
+  border-bottom: 2px solid var(--ink);
+  background: var(--ground);
+}
+
+.site-header .inner {
+  max-width: var(--page);
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: var(--size-l);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+}
+.wordmark:hover { color: var(--accent); text-decoration: none; }
+
+/* The menu wraps on phones instead of hiding behind a toggle,
+   so it needs no JavaScript and every page is one tap away. */
+.site-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.25rem;
+}
+
+.site-nav a {
+  display: inline-block;
+  padding: 0.6rem 0;          /* keeps the tap target tall enough */
+  min-height: 44px;
+  font-size: var(--size-s);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+.site-nav a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+.site-nav a[aria-current="page"] { border-bottom-color: var(--ink); }
+
+/* ---------- Page body ---------- */
+main {
+  max-width: var(--page);
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+/* Page title block, like the heading of a statement page */
+.page-head {
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+.page-head p { color: var(--muted); margin: 0; }
+
+/* ---------- Home ---------- */
+.home {
+  display: grid;
+  gap: 2.5rem;
+  padding-top: 1rem;
+}
+
+.home-name {
+  font-size: 2.5rem;           /* steps up to --size-xxl on wider screens */
+  margin-bottom: 0.25em;
+}
+
+.home-pitch {
+  font-size: var(--size-l);
+  line-height: 1.4;
+  max-width: 32ch;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  font-size: var(--size-s);
+  text-decoration: none;
+  border: 2px solid var(--accent);
+  background: var(--accent);
+  color: var(--surface);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.button:hover { background: var(--accent-dark); border-color: var(--accent-dark); color: var(--surface); text-decoration: none; }
+
+.button.secondary { background: transparent; color: var(--accent); }
+.button.secondary:hover { background: var(--accent); color: var(--surface); }
+
+/* ---------- Statement block (ruled rows) ---------- */
+.statement {
+  background: var(--surface);
+  border-top: 4px solid var(--accent);
+  padding: 1.25rem 1.25rem 0.5rem;
+  align-self: start;
+}
+
+.statement-title {
+  font-family: var(--font-display);
+  font-size: var(--size-m);
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+}
+
+.statement dl { margin: 0; }
+
+.statement .row {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: 1rem;
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--rule);
+}
+
+.statement dt {
+  font-size: var(--size-s);
+  color: var(--muted);
+}
+
+.statement dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- About ---------- */
+.about {
+  display: grid;
+  gap: 2rem;
+}
+
+/* Marked placeholder frame for the photo */
+.photo-slot {
+  width: 100%;
+  max-width: 240px;
+  aspect-ratio: 4 / 5;
+  border: 2px dashed var(--flag-ink);
+  background: var(--flag-bg);
+  color: var(--flag-ink);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 1rem;
+  font-size: var(--size-s);
+  font-weight: 600;
+}
+.photo-slot .initials {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--size-xl);
+  margin-bottom: 0.5rem;
+}
+
+.photo {
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  display: block;
+}
+
+.about-section { margin-top: 2rem; }
+
+.plain-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: var(--measure);
+}
+.plain-list li {
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--rule);
+}
+
+/* ---------- Projects ---------- */
+.projects {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--surface);
+  border-top: 4px solid var(--ink);
+  padding: 1.5rem 1.25rem;
+}
+.card.featured { border-top-color: var(--accent); }
+
+.card-meta {
+  font-size: var(--size-s);
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.card-links {
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0 0;
+  border-top: 1px solid var(--rule);
+}
+.card-links li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.card-links .label { font-weight: 600; }
+
+/* ---------- Résumé and Contact ---------- */
+.notice {
+  background: var(--surface);
+  border-top: 4px solid var(--accent);
+  padding: 1.5rem 1.25rem;
+  max-width: 40rem;
+}
+.notice p:last-child { margin-bottom: 0; }
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 40rem;
+  background: var(--surface);
+  border-top: 4px solid var(--accent);
+}
+.contact-list li {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid var(--rule);
+  overflow-wrap: anywhere;      /* long URLs never push the page sideways */
+}
+.contact-list li:last-child { border-bottom: 0; }
+.contact-list .label {
+  font-size: var(--size-s);
+  color: var(--muted);
+  padding-top: 0.15rem;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  border-top: 1px solid var(--rule);
+}
+.site-footer .inner {
+  max-width: var(--page);
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 2.5rem;
+  font-size: var(--size-s);
+  color: var(--muted);
+}
+.site-footer p { margin: 0 0 0.25rem; max-width: none; }
+
+/* ---------- Wider screens ---------- */
+@media (min-width: 768px) {
+  main { padding-top: 3.5rem; }
+  .home { grid-template-columns: 1.4fr 1fr; gap: 4rem; padding-top: 2rem; }
+  .home-name { font-size: var(--size-xxl); }
+  .about { grid-template-columns: 240px 1fr; gap: 3rem; }
+  .projects { grid-template-columns: 1fr 1fr; }
+  .card { padding: 1.75rem; }
+}
+
+/* No animations beyond color changes, but honor the setting anyway */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
